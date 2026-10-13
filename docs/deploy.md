@@ -4,6 +4,16 @@
 
 Use a dedicated demo account if possible. Choose a region supporting Python 3.12 Lambda. Approve usage charges before creating resources. Set an AWS Budget alert at an agreed amount; an alert is not a hard spending limit. Public API traffic, Lambda execution, logs, and S3 can incur charges. There is no promise of a free deployment.
 
+The `bootstrap/` root automates the state bucket, encryption, versioning, public-access block, TLS-only bucket policy, OIDC trust, and deployment role described below. It must run once through an approved administrator session, never through the application deployment role. No credentials are needed in files. Review the plan before applying:
+
+```sh
+terraform -chdir=bootstrap init
+terraform -chdir=bootstrap plan -var="state_bucket_name=YOUR_UNIQUE_BUCKET" -var="region=YOUR_REGION" -out=bootstrap.tfplan
+terraform -chdir=bootstrap apply bootstrap.tfplan
+```
+
+If the account already has GitHub OIDC, pass `-var="existing_oidc_provider_arn=YOUR_PROVIDER_ARN"` to the plan. Back up bootstrap state securely; it stays local until explicitly migrated. This bootstrap has been validated offline, not applied to AWS. It can create/modify the named runtime role and all HTTP APIs in the selected region; use a dedicated demo account and review/tighten those permissions. The main branch/environment gate is part of the security boundary. Set the budget alert separately before deployment.
+
 1. Create a dedicated S3 state bucket in the chosen region. Enable versioning, default encryption, and Block Public Access. Keep the bucket outside the app state so application teardown cannot delete its own state. Retain state after teardown for audit/recovery.
 2. Configure the GitHub OIDC provider with URL `https://token.actions.githubusercontent.com` and audience `sts.amazonaws.com`; reuse an existing provider if the account already has it.
 3. Create a dedicated deployment role. Its trust must allow `sts:AssumeRoleWithWebIdentity` only for that provider, with both exact string conditions:

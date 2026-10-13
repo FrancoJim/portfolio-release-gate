@@ -30,7 +30,7 @@ data "archive_file" "app" {
   type        = "zip"
   source_dir  = "${path.module}/../app"
   output_path = "${path.module}/app.zip"
-  excludes    = ["__pycache__", "__init__.py"]
+  excludes    = ["__pycache__", "__pycache__/*", "__init__.py"]
 }
 resource "aws_cloudwatch_log_group" "app" {
   name              = "/aws/lambda/${var.name}"

@@ -20,3 +20,5 @@ jobs:
       - run: terraform fmt -check -recursive
       - run: terraform -chdir=infra init -backend=false -input=false
       - run: terraform -chdir=infra validate
+      - run: terraform -chdir=bootstrap init -input=false
+      - run: terraform -chdir=bootstrap validate
