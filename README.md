@@ -6,10 +6,12 @@ A small release-readiness app. The browser sends four boolean checks to a Python
 
 ## Fresh-checkout startup
 
+The local demo is currently on the unmerged `hoc-18-local-demo` review branch (PR #1). The commands below explicitly select that branch; default-branch startup is not yet verified.
+
 Requires Python 3.12 or newer and Git. No packages, AWS account, cloud credentials, or services are needed. From a terminal:
 
 ```sh
-git clone https://github.com/FrancoJim/portfolio-release-gate.git
+git clone --branch hoc-18-local-demo --single-branch https://github.com/FrancoJim/portfolio-release-gate.git
 cd portfolio-release-gate
 python3 -m app.local
 ```

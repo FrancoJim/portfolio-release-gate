@@ -1,4 +1,4 @@
-# Three-minute Loom — verified local demo
+# Three-minute Loom — local demo (pending independent verification)
 
 Before recording, follow the README startup commands. Open http://127.0.0.1:8000, the local architecture diagram, handler, local adapter, and successful CI run. Run `python3 scripts/smoke.py http://127.0.0.1:8000` and keep its output available. KJ records the Loom. Hide unrelated windows and credentials.
 
@@ -8,7 +8,15 @@ Before recording, follow the README startup commands. Open http://127.0.0.1:8000
 
 **0:25–0:55 — browser interaction**
 
-Leave rollback unchecked and submit. “The API identifies rollback as missing.” Check all four and submit. “The checklist is ready for review. This is a demo result, not production release approval. Submissions are not stored.”
+Leave only rollback unchecked and submit. “Three of four checks pass.” The browser shows a count. In a terminal, show the matching API response:
+
+```sh
+curl -sS http://127.0.0.1:8000/api/check \
+  -H 'Content-Type: application/json' \
+  -d '{"tests_passed":true,"rollback_ready":false,"backup_verified":true,"owner_assigned":true}'
+```
+
+Point to `"missing": ["rollback_ready"]` in the JSON (spacing may differ). “The API response names rollback as the missing control.” Return to the browser. Check all four and submit. “The checklist is ready for review. This is a demo result, not production release approval. Submissions are not stored.”
 
 **0:55–1:25 — README diagram and source**
 
