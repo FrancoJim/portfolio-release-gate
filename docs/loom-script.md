@@ -1,29 +1,27 @@
-# Three-minute Loom — one-take script
+# Three-minute Loom — verified local demo
 
-Before recording, open the README diagram, app handler, Terraform, CI run, and deploy run. If a real deployment is not verified, record a source walkthrough and say so; do not call it a live demo. Once verified, open its URL and keep the successful smoke-test step visible. Hide account details and credentials.
+Before recording, follow the README startup commands. Open http://127.0.0.1:8000, the local architecture diagram, handler, local adapter, and successful CI run. Run `python3 scripts/smoke.py http://127.0.0.1:8000` and keep its output available. KJ records the Loom. Hide unrelated windows and credentials.
 
-**0:00–0:25 — outcome, README**
+**0:00–0:25 — outcome and local URL**
 
-“This is Release Gate, a small portfolio app that shows a complete delivery path: application checks, infrastructure as code, and a controlled cloud release. The app checks four release controls. The main point is that another engineer can understand how it gets deployed and how to recover it.”
+“This is Release Gate, a local portfolio demo of a release-readiness checklist. It runs on this computer using Python's standard library, without cloud credentials or paid services. It checks four release controls and identifies what is missing.”
 
-**0:25–0:55 — app, after deployment only**
+**0:25–0:55 — browser interaction**
 
-“I’ll leave rollback unchecked and submit. The API identifies the missing control. When all four are checked, it says the checklist is ready for review. This is a demo, not an automatic production approval. Submissions are not stored.”
+Leave rollback unchecked and submit. “The API identifies rollback as missing.” Check all four and submit. “The checklist is ready for review. This is a demo result, not production release approval. Submissions are not stored.”
 
-If deployment is pending, replace that paragraph with: “The interface and API are built and tested. Cloud deployment is still pending account setup, so I’m showing the source and test evidence rather than claiming a live service.”
+**0:55–1:25 — README diagram and source**
 
-**0:55–1:25 — diagram and Terraform**
+“The browser talks to a server bound only to 127.0.0.1. A small HTTP adapter calls the shared Python handler, which serves the interface and calculates the result. There is no database or external service. Another engineer can reproduce this from the README with no package installation.”
 
-“API Gateway accepts HTTPS and invokes a Python Lambda. Terraform defines the app archive, runtime role, logs, gateway, and invocation permission. The runtime can write its own logs. There is no database or cluster to maintain for this example. Log retention and gateway throttling are explicit.”
+**1:25–2:00 — verification**
 
-**1:25–2:00 — GitHub Actions**
+Show successful smoke output and unit tests. “The HTTP smoke checks cover the homepage, health, all checks passing, missing rollback, and invalid input. Unit and HTTP integration tests cover request validation and routing. GitHub Actions also checks JavaScript syntax and validates the retained Terraform examples without cloud credentials.” Only show a CI run confirmed successful for this change.
 
-“Pull requests run application tests and Terraform validation without cloud credentials. Deployment is a separate manual workflow restricted to main, using the demo environment. GitHub OIDC supplies temporary AWS credentials. State is encrypted in S3 with locking. The workflow creates a plan, applies that saved plan, then checks the live homepage, health endpoint, and API result.”
+**2:00–2:30 — boundaries and recovery**
 
-**2:00–2:30 — tests and recovery**
-
-“The tests cover valid checks, incomplete checks, invalid input, request size, encoding, and routes. A failed smoke test fails the release job. Recovery is explicit: revert the application change and redeploy, or inspect an infrastructure failure while preserving state. This sample does not claim automatic rollback.”
+“The AWS files are optional, unexecuted reference examples. This demo does not claim a cloud deployment. To stop it, press Ctrl-C. To repeat it, run the same startup command. A Git revert can restore a previous version; there is no submitted data or cloud state to migrate for the local app.”
 
 **2:30–3:00 — handoff**
 
-“The README explains setup, tradeoffs, teardown, and the limits of the demo. For a client, I’d start with the same questions: what must change, how do we prove it works, who approves the release, and how do we reverse it? That keeps a small delivery useful after the handoff.”
+“The repository includes exact startup commands, a local architecture diagram, automated checks, and clear limits. For client work, I would agree on the controls, verification evidence, approver, and recovery steps before release.”
