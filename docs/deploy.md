@@ -1,3 +1,5 @@
+> Optional AWS example, unexecuted for the local demo. Local startup requires no cloud credentials. AWS apply requires separate authorization and spending approval.
+
 # Deploy and operate the demo
 
 ## Prerequisites owned by the AWS account administrator

@@ -1,3 +1,4 @@
+# Optional AWS example; unexecuted for the local demo. Separate authorization required.
 name: Deploy demo
 on:
   workflow_dispatch:
